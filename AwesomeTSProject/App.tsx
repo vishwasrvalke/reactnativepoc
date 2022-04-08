@@ -58,7 +58,7 @@ const ItemBox = (props: any) => {
   return (
     <Swipeable renderLeftActions={leftSwipe} renderRightActions={rightSwipe}>
       <View style={styles.itemBox}>
-        <Text style={{fontSize: 24}}>
+        <Text style={{fontSize: 24, color: 'black'}}>
           {props.data}
           {props.selection.filter((i: any) => i === props.data).length > 0 ? (
             <Text style={{color: 'green'}}> &#x2713;</Text>
@@ -238,7 +238,13 @@ function SelectTeam({navigation}: any) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{marginTop: 10, padding: 20, fontWeight: 'bold'}}>
+      <Text
+        style={{
+          marginTop: 10,
+          padding: 20,
+          fontWeight: 'bold',
+          color: 'black',
+        }}>
         Select Any Two Teams
       </Text>
       <FlatList
@@ -249,6 +255,7 @@ function SelectTeam({navigation}: any) {
             setRefresh(false);
           }, 2000);
         }}
+        keyExtractor={(item: any) => item.team}
         data={selectedTeam}
         renderItem={({item}) => (
           <View
@@ -259,6 +266,7 @@ function SelectTeam({navigation}: any) {
               justifyContent: 'space-between',
             }}>
             <CheckBox
+              tintColors={{true: 'teal', false: '#3e2465'}}
               disabled={
                 selectedTeam.filter((i: any) => i.isChecked).length === 2 &&
                 !item.isChecked
@@ -266,7 +274,7 @@ function SelectTeam({navigation}: any) {
               value={item.isChecked}
               onChange={() => handleSelection(item.team)}
             />
-            <Text style={{marginTop: 5}}>{item.team}</Text>
+            <Text style={{color: 'black', marginTop: 5}}>{item.team}</Text>
           </View>
         )}
       />
@@ -312,6 +320,8 @@ function TeamScreen({team}: any) {
         {team.team}
       </Text>
       <FlatList
+        removeClippedSubviews={true}
+        keyExtractor={(_: any, index: number) => index.toString()}
         data={team.players}
         renderItem={({item}) => (
           <ItemBox
